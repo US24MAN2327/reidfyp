@@ -789,6 +789,7 @@ def generator():
         model_b = tf.keras.models.load_model('reid3modelcuhk_b.h5')
         model_c = tf.keras.models.load_model('reid2modelcuhk_c.h5')
         umodel= tf.keras.models.load_model('updatedreid_model.h5')
+        ugen = preprocess_image(output_image)
         ucam1 = preprocess_image(cam1)
         ucam2 = preprocess_image(cam2)
         pred = umodel.predict([ucam1,ucam2])
