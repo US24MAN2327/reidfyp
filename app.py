@@ -266,9 +266,9 @@ def process_images(folder_path, cam2):
 
     # Load the model once outside the loop
     upmodel = tf.keras.models.load_model('updatedreid_model.h5')
-    #model_a = tf.keras.models.load_model('reid3modelcuhk_a.h5')
-    #model_b = tf.keras.models.load_model('reid3modelcuhk_b.h5')
-    #model_c = tf.keras.models.load_model('reid2modelcuhk_c.h5')
+    model_a = tf.keras.models.load_model('reid3modelcuhk_a.h5')
+    model_b = tf.keras.models.load_model('reid3modelcuhk_b.h5')
+    model_c = tf.keras.models.load_model('reid2modelcuhk_c.h5')
 
     # Loop through each image in the folder
     for image_file in image_files:
@@ -283,11 +283,11 @@ def process_images(folder_path, cam2):
         # Preprocess images for the model
         upcam1 = preprocess_image(image_path)
         upcam2 = preprocess_image(cam2)
-        #query_features = extract_features([model_a], image_path)
-        #gallery_features = extract_features([model_c], cam2)
+        query_features = extract_features([model_a], image_path)
+        gallery_features = extract_features([model_c], cam2)
 
-        #fused_query_features = fuse_features2(query_features)
-        #is_same, distance = is_same_person(fused_query_features, gallery_features, threshold=0.39)
+        fused_query_features = fuse_features2(query_features)
+        is_same, distance = is_same_person(fused_query_features, gallery_features, threshold=0.39)
 
         # Predict using the ReID model
         predicts = upmodel.predict([upcam1, upcam2])
@@ -330,6 +330,7 @@ def process_images(folder_path, cam2):
     # Print sorted predictions
     print("Sorted Predictions:")
     for image_path, pred in predictions_sorted:
+
         print(f"{image_path}: {pred}")
 
     return predictions_sorted
@@ -409,6 +410,7 @@ def save_image():
     selected_image_path = image_path
     image_tensor = imagepath_to_tensor(selected_image_path)
     preds = process_images('snapshots_cam1',selected_image_path)
+
     
 
 
