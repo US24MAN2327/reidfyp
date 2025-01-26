@@ -802,7 +802,7 @@ def generator():
         fused_query_features = fuse_features(query_features, synthesized_features, query_weight=0.5, synthesized_weight=0.5)
         is_same, distance = is_same_person(fused_query_features, gallery_features, threshold=0.39)
         # Format reid results
-        if pred > 0.68 :
+        if distance > 0.68 :
             reid_results = f"The query and the provided images (gallery and generated) correspond to the same individual{pred}"
         else:
             reid_results = f"The query image and the provided images (gallery and generated) are from different individual {pred}"
